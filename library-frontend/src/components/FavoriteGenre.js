@@ -7,7 +7,7 @@ const FavoriteGenre = (props) => {
   //const result = useQuery(ALL_BOOKS)
 
   const user = useQuery(USERGENRE, {
-    pollInterval: 5000,
+    enabled: false,
   })
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const FavoriteGenre = (props) => {
   const result = useQuery(BOOKS_BY_GENRES, {
     variables: { genre },
     skip: !genre,
-    pollInterval: 5000,
+    //pollInterval: 5000,
   })
 
   console.log(user)
@@ -34,7 +34,10 @@ const FavoriteGenre = (props) => {
   //const result = useQuery(ALL_BOOKS)
   if (!props.show) {
     return null
+  } else {
+    user.refetch()
   }
+
   if (!user.data || !user.data.me) {
     return (
       <div>
@@ -42,8 +45,10 @@ const FavoriteGenre = (props) => {
       </div>
     )
   }
-
-  const books = result.data.allBooks
+  let books = []
+  if (result.data) {
+    books = result.data.allBooks
+  }
 
 
 

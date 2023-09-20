@@ -2,13 +2,17 @@ import { useQuery } from '@apollo/client'
 import { ALL_AUTHORS } from '../queries'
 import AuthorForm from './AuthorForm'
 
-const Authors = ({ show }) => {
+const Authors = ({ show, authors }) => {
   console.log(show)
   const result = useQuery(ALL_AUTHORS)
   if (!show) {
     return null
   }
-  const authors = result.data.allAuthors
+  if (result.loading) {
+    return <div>loading...</div>
+  }
+  //const authors = result.data.allAuthors
+  //const authors = []
 
   return (
     <div>

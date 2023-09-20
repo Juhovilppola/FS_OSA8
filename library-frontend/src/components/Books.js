@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react'
 
 const Books = (props) => {
 
-  let books = []
+  let books = props.books
   const [genre, setGenre] = useState(null)
-  const all = useQuery(ALL_BOOKS)
+
 
   const { data, refetch } = useQuery(BOOKS_BY_GENRES, {
     variables: { genre },
@@ -18,7 +18,7 @@ const Books = (props) => {
   console.log(genre)
   console.log(data)
   console.log('books.js')
-  console.log(all)
+
   if (!props.show) {
     return null
   }
@@ -27,12 +27,12 @@ const Books = (props) => {
   if (data) {
     books = data.allBooks
   } else {
-    books = all.data.allBooks
+    books = props.books
   }
 
 
   console.log(books)
-  let genres = all.data.allBooks.map((book) => {
+  let genres = props.books.map((book) => {
     return book.genres.filter((genre) => genre !== null)
 
   })
@@ -53,9 +53,8 @@ const Books = (props) => {
     setGenre(genre)
     if (genre) {
       refetch()
-    } else {
-      all.refetch()
     }
+
   }
 
   return (
